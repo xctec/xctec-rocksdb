@@ -1,3 +1,6 @@
+.idea/
+target/
+rocksdb-spring/rocksdb
 # Compiled class file
 *.class
 
