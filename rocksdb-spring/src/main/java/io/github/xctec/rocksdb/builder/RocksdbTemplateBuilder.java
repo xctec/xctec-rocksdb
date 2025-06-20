@@ -39,6 +39,11 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
         this.path = path;
     }
 
+    public static <T extends RocksdbTemplate, CF extends AbstractColumnFamilyOperations> RocksdbTemplateBuilder<T, CF>
+    builder(Class<T> rocksdbTemplateClass, Class<CF> columnFamilyOperationsClass) {
+        return new RocksdbTemplateBuilder(rocksdbTemplateClass, columnFamilyOperationsClass);
+    }
+
     public RocksdbTemplateBuilder<T, CF> setDbName(String dbName) {
         this.dbName = dbName;
         return this;
@@ -70,7 +75,7 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
     }
 
     public RocksdbTemplateBuilder<T, CF> setDefaultColumnFamilyOptionsConfigurer(ColumnFamilyOptionsConfigurer configurer,
-                                                                          ColumnFamilyOperationsConfigurer operationsConfigurer) {
+                                                                                 ColumnFamilyOperationsConfigurer operationsConfigurer) {
         this.defaultColumnFamilyConfigurer = new ColumnFamilyConfigurer("default", configurer, operationsConfigurer);
         return this;
     }
@@ -82,6 +87,10 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
         return this;
     }
 
+    public RocksdbTemplateBuilder<T, CF> addColumnFamily(String cfName) {
+        this.columnFamilyConfigurerMap.put(cfName, new ColumnFamilyConfigurer(cfName));
+        return this;
+    }
 
     public RocksdbTemplateBuilder<T, CF> addColumnFamily(String cfName, ColumnFamilyOptionsConfigurer configurer,
                                                          ColumnFamilyOperationsConfigurer operationsConfigurer) {
@@ -95,7 +104,6 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
         }
         return this;
     }
-
 
     public T build() {
         try {
@@ -132,7 +140,7 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
             RocksDB db = RocksDB.open(dbOptions, this.path, descriptors, handles);
 
             Constructor<T> constructor = rocksdbTemplateClass.getConstructor();
-            T rocksdbTemplate =  constructor.newInstance();
+            T rocksdbTemplate = constructor.newInstance();
             rocksdbTemplate.setDb(db);
             rocksdbTemplate.setDbName(dbName);
             rocksdbTemplate.setStatistics(statistics);
@@ -157,10 +165,5 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
         } catch (Exception e) {
             throw new BaseException("build rocksdbTemplate fail.", e);
         }
-    }
-
-    public static <T extends RocksdbTemplate, CF extends AbstractColumnFamilyOperations> RocksdbTemplateBuilder<T, CF>
-        builder(Class<T> rocksdbTemplateClass, Class<CF> columnFamilyOperationsClass) {
-        return new RocksdbTemplateBuilder(rocksdbTemplateClass, columnFamilyOperationsClass);
     }
 }
