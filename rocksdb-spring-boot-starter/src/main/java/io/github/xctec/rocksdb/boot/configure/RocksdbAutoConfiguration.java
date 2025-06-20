@@ -23,7 +23,7 @@ import java.util.List;
 public class RocksdbAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(name = "rocksdbTemplate")
     public RocksdbTemplate rocksdbTemplate(RocksdbProperties properties,
                                            ObjectProvider<DBOptionsConfigurer> dbOptionsConfigurerProvider,
                                            List<ColumnFamilyConfigurer> columnFamilyConfigurers, ColumnFamilyOperations columnFamilyOperations) {
