@@ -11,6 +11,9 @@
 
     <artifactId>rocksdb-spring-boot-starter</artifactId>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>rocksdb-spring-boot-starter</description>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
