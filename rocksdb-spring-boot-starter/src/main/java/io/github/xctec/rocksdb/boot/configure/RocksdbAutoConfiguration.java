@@ -4,7 +4,6 @@ import io.github.xctec.rocksdb.builder.ColumnFamilyConfigurer;
 import io.github.xctec.rocksdb.builder.DBOptionsConfigurer;
 import io.github.xctec.rocksdb.builder.RocksdbTemplateBuilder;
 import io.github.xctec.rocksdb.core.AbstractColumnFamilyOperations;
-import io.github.xctec.rocksdb.core.ColumnFamilyOperations;
 import io.github.xctec.rocksdb.core.RocksdbTemplate;
 import org.rocksdb.RocksDB;
 import org.springframework.beans.factory.ObjectProvider;
@@ -26,7 +25,7 @@ public class RocksdbAutoConfiguration {
     @ConditionalOnMissingBean(name = "rocksdbTemplate")
     public RocksdbTemplate rocksdbTemplate(RocksdbProperties properties,
                                            ObjectProvider<DBOptionsConfigurer> dbOptionsConfigurerProvider,
-                                           List<ColumnFamilyConfigurer> columnFamilyConfigurers, ColumnFamilyOperations columnFamilyOperations) {
+                                           List<ColumnFamilyConfigurer> columnFamilyConfigurers) {
         RocksdbTemplateBuilder<? extends RocksdbTemplate, ? extends AbstractColumnFamilyOperations> builder =
                 RocksdbTemplateBuilder.builder(properties.getRocksdbTemplateClass(), properties.getColumnFamilyOperationsClass())
                         .setPath(properties.getPath())

@@ -109,7 +109,9 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
         try {
             List<String> cfNames = Arrays.asList("default", "cf1", "cf2", "cf3");
             DBOptions dbOptions = new DBOptions();
-            this.dbOptionsConfigurer.configure(dbOptions);
+            if (dbOptionsConfigurer != null) {
+                this.dbOptionsConfigurer.configure(dbOptions);
+            }
             dbOptions.setCreateIfMissing(createIfMissing)
                     .setCreateMissingColumnFamilies(createMissingColumnFamilies);
             Statistics statistics = null;
