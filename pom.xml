@@ -4,19 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>io.github.xctec</groupId>
+        <artifactId>xctec-root</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
     <groupId>io.github.xctec</groupId>
     <artifactId>xctec-rocksdb</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>xctec-rocksdb</description>
-    <url>https://github.com/xctec/xctec-rocksdb</url>
-
-    <modules>
-        <module>rocksdb-spring</module>
-        <module>rocksdb-spring-boot-starter</module>
-    </modules>
+    <description>xctec-root</description>
+    <url>https://github.com/xctec/xctec-root</url>
 
     <licenses>
         <license>
@@ -26,9 +27,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/xctec/xctec-rocksdb.git</connection>
-        <developerConnection>scm:git:ssh://github.com:xctec/xctec-rocksdb.git</developerConnection>
-        <url>http://github.com/xctec/xctec-rocksdb/tree/master</url>
+        <connection>scm:git:git://github.com/xctec/xctec-root.git</connection>
+        <developerConnection>scm:git:ssh://github.com:xctec/xctec-root.git</developerConnection>
+        <url>http://github.com/xctec/xctec-root/tree/master</url>
     </scm>
 
     <developers>
@@ -39,50 +40,10 @@
     </developers>
 
     <properties>
-        <rocksdb.version>10.2.1</rocksdb.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
-
-        <testng.version>7.5</testng.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.rocksdb</groupId>
-                <artifactId>rocksdbjni</artifactId>
-                <version>${rocksdb.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.xctec</groupId>
-                <artifactId>rocksdb-spring</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.xctec</groupId>
-                <artifactId>rocksdb-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
