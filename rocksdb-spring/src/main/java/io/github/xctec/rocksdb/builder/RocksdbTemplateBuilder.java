@@ -4,9 +4,13 @@ import io.github.xctec.rocksdb.core.AbstractColumnFamilyOperations;
 import io.github.xctec.rocksdb.core.RocksdbTemplate;
 import io.github.xctec.rocksdb.exception.BaseException;
 import org.rocksdb.*;
+import org.springframework.util.Assert;
 
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends AbstractColumnFamilyOperations> {
 
@@ -107,7 +111,8 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
 
     public T build() {
         try {
-            List<String> cfNames = Arrays.asList("default", "cf1", "cf2", "cf3");
+            Assert.hasText(dbName, "dbName must not be empty");
+            Assert.hasText(path, "path must not be empty");
             DBOptions dbOptions = new DBOptions();
             if (dbOptionsConfigurer != null) {
                 this.dbOptionsConfigurer.configure(dbOptions);
