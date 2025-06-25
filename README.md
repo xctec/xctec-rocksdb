@@ -7,6 +7,7 @@ QQ群：346994239
 ## 开始使用
 ### 1. 基于spring-boot
 
+见 https://github.com/xctec/xctec-rocksdb-examples
 
 ### 2. 普通模式
 1. 添加依赖
