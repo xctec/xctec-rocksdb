@@ -5,14 +5,21 @@ import org.springframework.util.Assert;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * RocksDB 字符串序列化器
+ */
 public class StringRocksdbSerializer implements RocksdbSerializer<String> {
 
+    // 使用的字符集
     private final Charset charset;
 
+    // US_ASCII 字符串序列化器
     public static final StringRocksdbSerializer US_ASCII = new StringRocksdbSerializer(StandardCharsets.US_ASCII);
 
+    // ISO_8859_1 字符串序列化器
     public static final StringRocksdbSerializer ISO_8859_1 = new StringRocksdbSerializer(StandardCharsets.ISO_8859_1);
 
+    // UTF_8 字符串序列化器
     public static final StringRocksdbSerializer UTF_8 = new StringRocksdbSerializer(StandardCharsets.UTF_8);
 
     public StringRocksdbSerializer() {

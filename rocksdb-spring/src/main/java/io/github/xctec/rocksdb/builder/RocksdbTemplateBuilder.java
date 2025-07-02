@@ -12,6 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * RocksdbTemplate的构建器
+ *
+ * @param <T>
+ * @param <CF>
+ */
 public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends AbstractColumnFamilyOperations> {
 
     private Class<T> rocksdbTemplateClass;

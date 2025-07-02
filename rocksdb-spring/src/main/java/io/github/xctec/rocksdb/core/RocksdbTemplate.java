@@ -7,6 +7,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
+/**
+ * RocksdbTemplate的通用实现
+ * @param <K>
+ * @param <V>
+ */
 public class RocksdbTemplate<K, V> extends AbstractRocksdbTemplate<K, V> implements ColumnFamilyOperations<K, V> {
 
     private Map<String, ColumnFamilyOperations> columnFamilyOperationsMap = new ConcurrentHashMap<>();

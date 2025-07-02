@@ -2,6 +2,9 @@ package io.github.xctec.rocksdb.core;
 
 import org.rocksdb.RocksDB;
 
+/**
+ * 使用字符串序列化的RocksdbTemplate
+ */
 public class StringRocksdbTemplate extends RocksdbTemplate<String, String> {
     public StringRocksdbTemplate() {
 

@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.function.Supplier;
 
+/**
+ * 通用Json序列化器，基于jackson, 序列化内容中包含类型，可以根据类型进行反序列化
+ */
 public class GenericJackson2JsonRocksdbSerializer implements RocksdbSerializer<Object> {
 
     private final ObjectMapper mapper;
@@ -256,10 +259,10 @@ public class GenericJackson2JsonRocksdbSerializer implements RocksdbSerializer<O
             }
 
             /**
-            if (t.isFinal() && !KotlinDetector.isKotlinType(t.getRawClass())
-                    && t.getRawClass().getPackageName().startsWith("java")) {
-                return false;
-            }
+             if (t.isFinal() && !KotlinDetector.isKotlinType(t.getRawClass())
+             && t.getRawClass().getPackageName().startsWith("java")) {
+             return false;
+             }
              */
 
             // [databind#88] Should not apply to JSON tree models:

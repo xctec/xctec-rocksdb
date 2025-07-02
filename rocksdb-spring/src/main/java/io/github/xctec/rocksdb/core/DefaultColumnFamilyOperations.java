@@ -6,6 +6,12 @@ import org.rocksdb.*;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * ColumnFamilyOperations的默认实现
+ *
+ * @param <K>
+ * @param <V>
+ */
 public class DefaultColumnFamilyOperations<K, V> extends AbstractColumnFamilyOperations<K, V> {
 
     public DefaultColumnFamilyOperations() {

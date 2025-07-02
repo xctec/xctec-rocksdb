@@ -7,6 +7,9 @@ import org.springframework.core.serializer.support.SerializingConverter;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
+/**
+ * Jdk Rocksdb序列化器
+ */
 public class JdkSerializationRocksdbSerializer implements RocksdbSerializer<Object> {
 
     private final Converter<Object, byte[]> serializer;

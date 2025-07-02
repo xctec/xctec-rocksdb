@@ -8,6 +8,11 @@ import org.rocksdb.WriteOptions;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * ColumnFamily操作
+ * @param <K> key类型
+ * @param <V> value类型
+ */
 public interface ColumnFamilyOperations<K, V> {
 
     default V get(K key) {

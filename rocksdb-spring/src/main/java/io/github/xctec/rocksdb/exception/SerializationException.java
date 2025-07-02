@@ -1,5 +1,8 @@
 package io.github.xctec.rocksdb.exception;
 
+/**
+ * 序列化Exception
+ */
 public class SerializationException extends BaseException {
     public SerializationException() {
     }

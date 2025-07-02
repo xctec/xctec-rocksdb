@@ -8,6 +8,12 @@ import org.springframework.util.Assert;
 
 import java.util.Collection;
 
+/**
+ * ColumnFamilyOperations的抽象实现
+ *
+ * @param <K>
+ * @param <V>
+ */
 public abstract class AbstractColumnFamilyOperations<K, V> implements ColumnFamilyOperations<K, V> {
 
     private String dbName;

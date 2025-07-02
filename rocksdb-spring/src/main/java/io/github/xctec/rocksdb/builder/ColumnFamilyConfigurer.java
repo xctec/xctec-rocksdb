@@ -1,5 +1,8 @@
 package io.github.xctec.rocksdb.builder;
 
+/**
+ * cf配置类
+ */
 public class ColumnFamilyConfigurer {
     private String cfName = "default";
 

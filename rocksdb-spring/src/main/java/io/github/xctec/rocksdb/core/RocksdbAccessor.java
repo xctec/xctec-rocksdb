@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * RocksdbTemplate的父类，维护db等
+ */
 public abstract class RocksdbAccessor implements InitializingBean {
 
     private String dbName;

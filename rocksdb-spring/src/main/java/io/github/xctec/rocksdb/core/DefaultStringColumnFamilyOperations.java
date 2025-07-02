@@ -4,6 +4,9 @@ import io.github.xctec.rocksdb.serializer.RocksdbSerializer;
 import org.rocksdb.ColumnFamilyHandle;
 import org.rocksdb.RocksDB;
 
+/**
+ * ColumnFamilyOperations的默认实现，并使用字符串序列化
+ */
 public class DefaultStringColumnFamilyOperations extends DefaultColumnFamilyOperations<String, String> {
     public DefaultStringColumnFamilyOperations() {
         setKeySerializer(RocksdbSerializer.string());

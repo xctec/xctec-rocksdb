@@ -1,5 +1,8 @@
 package io.github.xctec.rocksdb.exception;
 
+/**
+ * 基础Exception
+ */
 public class BaseException extends RuntimeException {
     public BaseException() {
     }

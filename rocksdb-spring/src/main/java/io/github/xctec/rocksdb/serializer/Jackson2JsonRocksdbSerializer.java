@@ -9,6 +9,11 @@ import org.springframework.util.Assert;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * 基于jackson的json序列化器
+ *
+ * @param <T>
+ */
 public class Jackson2JsonRocksdbSerializer<T> implements RocksdbSerializer<T> {
 
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
