@@ -20,6 +20,11 @@ import java.util.Map;
  */
 public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends AbstractColumnFamilyOperations> {
 
+    static {
+        // 提前加载动态库
+        RocksDB.loadLibrary();
+    }
+
     private Class<T> rocksdbTemplateClass;
 
     private Class<CF> columnFamilyOperationsClass;
@@ -33,6 +38,8 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
     private boolean createMissingColumnFamilies = true;
 
     private boolean enableStatistics = true;
+
+    private LoggerInterface logger;
 
     private DBOptionsConfigurer dbOptionsConfigurer;
 
@@ -76,6 +83,11 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
 
     public RocksdbTemplateBuilder<T, CF> setEnableStatistics(boolean enableStatistics) {
         this.enableStatistics = enableStatistics;
+        return this;
+    }
+
+    public RocksdbTemplateBuilder<T, CF> setLogger(LoggerInterface logger) {
+        this.logger = logger;
         return this;
     }
 
@@ -128,6 +140,9 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
             Statistics statistics = null;
             if (enableStatistics) {
                 dbOptions.setStatistics(statistics = new Statistics());
+            }
+            if (logger != null) {
+                dbOptions.setLogger(logger);
             }
             List<ColumnFamilyDescriptor> descriptors = new ArrayList<>();
 

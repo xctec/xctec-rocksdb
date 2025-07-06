@@ -23,6 +23,10 @@ public class RocksdbProperties {
 
     private boolean enableStatistics = true;
 
+    private String loggerType = "std";
+
+    private String loggerLevel = "error";
+
     public Class<? extends RocksdbTemplate> getRocksdbTemplateClass() {
         return rocksdbTemplateClass;
     }
@@ -77,5 +81,21 @@ public class RocksdbProperties {
 
     public void setEnableStatistics(boolean enableStatistics) {
         this.enableStatistics = enableStatistics;
+    }
+
+    public String getLoggerType() {
+        return loggerType;
+    }
+
+    public void setLoggerType(String loggerType) {
+        this.loggerType = loggerType;
+    }
+
+    public String getLoggerLevel() {
+        return loggerLevel;
+    }
+
+    public void setLoggerLevel(String loggerLevel) {
+        this.loggerLevel = loggerLevel;
     }
 }
