@@ -66,6 +66,11 @@ public class RocksdbTemplate<K, V> extends AbstractRocksdbTemplate<K, V> impleme
     }
 
     @Override
+    public void merge(WriteOptions writeOptions, K key, V value) {
+        getDefaultColumnFamilyOperations().merge(key, value);
+    }
+
+    @Override
     public void batch(WriteOptions writeOptions, Consumer<WriteBatch> writeBatchConsumer) {
         getDefaultColumnFamilyOperations().batch(writeOptions, writeBatchConsumer);
     }

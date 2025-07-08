@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 
 /**
  * ColumnFamily操作
+ *
  * @param <K> key类型
  * @param <V> value类型
  */
@@ -40,6 +41,14 @@ public interface ColumnFamilyOperations<K, V> {
     }
 
     void merge(WriteOptions writeOptions, byte[] key, byte[] value);
+
+    default void merge(K key, V value) {
+        try (WriteOptions writeOptions = new WriteOptions()) {
+            merge(writeOptions, key, value);
+        }
+    }
+
+    void merge(WriteOptions writeOptions, K key, V value);
 
     default void batch(Consumer<WriteBatch> writeBatchConsumer) {
         try (WriteOptions writeOptions = new WriteOptions()) {

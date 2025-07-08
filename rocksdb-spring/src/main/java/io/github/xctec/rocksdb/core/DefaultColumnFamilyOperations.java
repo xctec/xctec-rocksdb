@@ -52,6 +52,15 @@ public class DefaultColumnFamilyOperations<K, V> extends AbstractColumnFamilyOpe
     @Override
     public void merge(WriteOptions writeOptions, byte[] key, byte[] value) {
         try {
+            getDb().merge(getColumnFamilyHandle(), writeOptions, key, value);
+        } catch (Exception e) {
+            throw new BaseException(e);
+        }
+    }
+
+    @Override
+    public void merge(WriteOptions writeOptions, K key, V value) {
+        try {
             byte[] rawValue = rawValue(value);
             byte[] rawKey = rawKey(key);
             getDb().merge(getColumnFamilyHandle(), writeOptions, rawKey, rawValue);
