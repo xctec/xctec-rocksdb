@@ -1,6 +1,7 @@
 package io.github.xctec.rocksdb.builder;
 
 import io.github.xctec.rocksdb.core.AbstractColumnFamilyOperations;
+import io.github.xctec.rocksdb.core.DefaultEventListener;
 import io.github.xctec.rocksdb.core.RocksdbTemplate;
 import io.github.xctec.rocksdb.exception.BaseException;
 import org.rocksdb.*;
@@ -39,6 +40,8 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
 
     private boolean enableStatistics = true;
 
+    private boolean enableDefaultEventListener = false;
+
     private LoggerInterface logger;
 
     private DBOptionsConfigurer dbOptionsConfigurer;
@@ -46,6 +49,8 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
     private ColumnFamilyConfigurer defaultColumnFamilyConfigurer = new ColumnFamilyConfigurer("default");
 
     private Map<String, ColumnFamilyConfigurer> columnFamilyConfigurerMap = new HashMap<>();
+
+    private List<AbstractEventListener> eventListeners = new ArrayList<>();
 
     public RocksdbTemplateBuilder(Class<T> rocksdbTemplateClass, Class<CF> columnFamilyOperationsClass) {
         this.rocksdbTemplateClass = rocksdbTemplateClass;
@@ -83,6 +88,11 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
 
     public RocksdbTemplateBuilder<T, CF> setEnableStatistics(boolean enableStatistics) {
         this.enableStatistics = enableStatistics;
+        return this;
+    }
+
+    public RocksdbTemplateBuilder<T, CF> setEnableDefaultEventListener(boolean enableDefaultEventListener) {
+        this.enableDefaultEventListener = enableDefaultEventListener;
         return this;
     }
 
@@ -127,6 +137,11 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
         return this;
     }
 
+    public RocksdbTemplateBuilder<T, CF> addEventListener(AbstractEventListener eventListener) {
+        this.eventListeners.add(eventListener);
+        return this;
+    }
+
     public T build() {
         try {
             Assert.hasText(dbName, "dbName must not be empty");
@@ -144,6 +159,12 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
             if (logger != null) {
                 dbOptions.setLogger(logger);
             }
+            List<AbstractEventListener> listeners = new ArrayList<>();
+            if (enableDefaultEventListener) {
+                listeners.add(new DefaultEventListener(dbName));
+            }
+            listeners.addAll(this.eventListeners);
+            dbOptions.setListeners(listeners);
             List<ColumnFamilyDescriptor> descriptors = new ArrayList<>();
 
             // default column family

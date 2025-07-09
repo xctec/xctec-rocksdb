@@ -39,7 +39,8 @@ public class RocksdbAutoConfiguration {
                         .setDbName(properties.getDbName())
                         .setCreateIfMissing(properties.isCreateIfMissing())
                         .setCreateMissingColumnFamilies(properties.isCreateMissingColumnFamilies())
-                        .setEnableStatistics(properties.isEnableStatistics());
+                        .setEnableStatistics(properties.isEnableStatistics())
+                        .setEnableDefaultEventListener(properties.isEnableDefaultEventListener());
         dbOptionsConfigurerProvider.ifAvailable(x -> {
             builder.setDbOptionsConfigurer(x);
         });

@@ -27,6 +27,8 @@ public class RocksdbProperties {
 
     private String loggerLevel = "error";
 
+    private boolean enableDefaultEventListener = true;
+
     public Class<? extends RocksdbTemplate> getRocksdbTemplateClass() {
         return rocksdbTemplateClass;
     }
@@ -97,5 +99,13 @@ public class RocksdbProperties {
 
     public void setLoggerLevel(String loggerLevel) {
         this.loggerLevel = loggerLevel;
+    }
+
+    public boolean isEnableDefaultEventListener() {
+        return enableDefaultEventListener;
+    }
+
+    public void setEnableDefaultEventListener(boolean enableDefaultEventListener) {
+        this.enableDefaultEventListener = enableDefaultEventListener;
     }
 }
