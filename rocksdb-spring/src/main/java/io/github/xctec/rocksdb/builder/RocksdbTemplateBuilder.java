@@ -174,6 +174,9 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
             descriptors.add(defaultColumnFamilyDescriptor);
 
             for (String key : columnFamilyConfigurerMap.keySet()) {
+                if ("default".equals(key)) {
+                    continue;
+                }
                 ColumnFamilyOptions columnFamilyOptions = new ColumnFamilyOptions();
                 // 先应用默认配置
                 defaultColumnFamilyConfigurer.getConfigurer().configure(columnFamilyOptions);
