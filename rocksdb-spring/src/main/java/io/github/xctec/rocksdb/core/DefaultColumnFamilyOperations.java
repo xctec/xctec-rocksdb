@@ -2,6 +2,7 @@ package io.github.xctec.rocksdb.core;
 
 import io.github.xctec.rocksdb.exception.BaseException;
 import org.rocksdb.*;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -146,6 +147,42 @@ public class DefaultColumnFamilyOperations<K, V> extends AbstractColumnFamilyOpe
             getDb().flush(flushOptions, getColumnFamilyHandle());
         } catch (Exception e) {
             throw new BaseException(e);
+        }
+    }
+
+    @Override
+    public void iterator(ReadOptions readOptions, String startType, String seekKey, String order, IteratorCallback<K, V> iteratorCallback) {
+        try (RocksIterator iterator = getDb().newIterator(this.getColumnFamilyHandle(), readOptions)) {
+            if ("first".equals(startType)) {
+                iterator.seekToFirst();
+            } else if ("last".equals(startType)) {
+                iterator.seekToLast();
+            } else if ("key".equals(startType) && StringUtils.hasText(seekKey)) {
+                if ("prev".equals(order)) {
+                    iterator.seekForPrev(seekKey.getBytes());
+                } else {
+                    iterator.seek(seekKey.getBytes());
+                }
+            } else {
+
+            }
+            int count = 1;
+            while (iterator.isValid()) {
+                K key = deserializeKey(iterator.key());
+                V value = deserializeValue(iterator.value());
+                iteratorCallback.callback(key, value, count);
+                count++;
+                if ("prev".equals(order)) {
+                    iterator.prev();
+                } else {
+                    iterator.next();
+                }
+            }
+            try {
+                iterator.status();
+            } catch (RocksDBException e) {
+                throw new BaseException(e);
+            }
         }
     }
 

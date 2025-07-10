@@ -98,5 +98,13 @@ public interface ColumnFamilyOperations<K, V> {
         flush(true, true);
     }
 
+    void iterator(ReadOptions readOptions, String startType, String seekKey, String order, IteratorCallback<K, V> iteratorCallback);
+
+    default void iterator(String startType, String seekKey, String order, IteratorCallback<K, V> iteratorCallback) {
+        try (ReadOptions readOptions = new ReadOptions()) {
+            iterator(readOptions, startType, seekKey, order, iteratorCallback);
+        }
+    }
+
     void close();
 }

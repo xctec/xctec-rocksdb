@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 
 /**
  * RocksdbTemplate的通用实现
+ *
  * @param <K>
  * @param <V>
  */
@@ -103,6 +104,11 @@ public class RocksdbTemplate<K, V> extends AbstractRocksdbTemplate<K, V> impleme
     @Override
     public void flush(boolean waitForFlush, boolean allowWriteStall) {
         getDefaultColumnFamilyOperations().flush(waitForFlush, allowWriteStall);
+    }
+
+    @Override
+    public void iterator(ReadOptions readOptions, String startType, String seekKey, String order, IteratorCallback<K, V> iteratorCallback) {
+        getDefaultColumnFamilyOperations().iterator(readOptions, startType, seekKey, order, iteratorCallback);
     }
 
     @Override
