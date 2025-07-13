@@ -7,5 +7,5 @@ package io.github.xctec.rocksdb.core;
  * @param <V>
  */
 public interface IteratorCallback<K, V> {
-    void callback(K key, V value, int count);
+    void callback(K key, V value, long offset);
 }

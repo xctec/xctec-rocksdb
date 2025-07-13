@@ -152,6 +152,14 @@ public class DefaultColumnFamilyOperations<K, V> extends AbstractColumnFamilyOpe
 
     @Override
     public void iterator(ReadOptions readOptions, String startType, String seekKey, String order, IteratorCallback<K, V> iteratorCallback) {
+        iterator(readOptions, startType, seekKey, order, 1, Long.MAX_VALUE, iteratorCallback);
+    }
+
+    @Override
+    public void iterator(ReadOptions readOptions, String startType, String seekKey, String order, long offset, long count, IteratorCallback<K, V> iteratorCallback) {
+        if (offset < 1) {
+            offset = 1;
+        }
         try (RocksIterator iterator = getDb().newIterator(this.getColumnFamilyHandle(), readOptions)) {
             if ("first".equals(startType)) {
                 iterator.seekToFirst();
@@ -166,12 +174,19 @@ public class DefaultColumnFamilyOperations<K, V> extends AbstractColumnFamilyOpe
             } else {
 
             }
-            int count = 1;
+            long curIndex = 1;
+            long curCount = 0;
             while (iterator.isValid()) {
-                K key = deserializeKey(iterator.key());
-                V value = deserializeValue(iterator.value());
-                iteratorCallback.callback(key, value, count);
-                count++;
+                // 跳过offset，才进行回调
+                if (curIndex++ >= offset) {
+                    K key = deserializeKey(iterator.key());
+                    V value = deserializeValue(iterator.value());
+                    iteratorCallback.callback(key, value, curIndex);
+                }
+                // 获取count条
+                if (++curCount >= count) {
+                    break;
+                }
                 if ("prev".equals(order)) {
                     iterator.prev();
                 } else {

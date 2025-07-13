@@ -112,6 +112,11 @@ public class RocksdbTemplate<K, V> extends AbstractRocksdbTemplate<K, V> impleme
     }
 
     @Override
+    public void iterator(ReadOptions readOptions, String startType, String seekKey, String order, long offset, long count, IteratorCallback<K, V> iteratorCallback) {
+        getDefaultColumnFamilyOperations().iterator(readOptions, startType, seekKey, order, offset, count, iteratorCallback);
+    }
+
+    @Override
     public void close() {
         getDb().close();
     }

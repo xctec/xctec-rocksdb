@@ -106,5 +106,25 @@ public interface ColumnFamilyOperations<K, V> {
         }
     }
 
+    /**
+     * 遍历列表，支持分页
+     *
+     * @param readOptions      读取选项
+     * @param startType        开始类型 start last key
+     * @param seekKey          搜索的key
+     * @param order            搜索顺序 next prev
+     * @param offset           偏移 从1开始，1表示无偏移，小于1的数字将被设置为1
+     * @param count            获取总数
+     * @param iteratorCallback 回调
+     */
+    void iterator(ReadOptions readOptions, String startType, String seekKey, String order, long offset, long count, IteratorCallback<K, V> iteratorCallback);
+
+    default void iterator(String startType, String seekKey, String order, long offset, long count, IteratorCallback<K, V> iteratorCallback) {
+        try (ReadOptions readOptions = new ReadOptions()) {
+            iterator(readOptions, startType, seekKey, order, offset, count,
+                    iteratorCallback);
+        }
+    }
+
     void close();
 }
