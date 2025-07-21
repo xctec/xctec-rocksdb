@@ -20,6 +20,8 @@ public abstract class RocksdbAccessor implements InitializingBean {
 
     private RocksDB db;
 
+    private boolean enableTransaction;
+
     private Statistics statistics;
 
     private Map<String, ColumnFamilyHandle> columnFamilies = new ConcurrentHashMap<>();
@@ -58,6 +60,14 @@ public abstract class RocksdbAccessor implements InitializingBean {
 
     public void setDb(@Nullable RocksDB db) {
         this.db = db;
+    }
+
+    public boolean isEnableTransaction() {
+        return enableTransaction;
+    }
+
+    public void setEnableTransaction(boolean enableTransaction) {
+        this.enableTransaction = enableTransaction;
     }
 
     public Statistics getStatistics() {

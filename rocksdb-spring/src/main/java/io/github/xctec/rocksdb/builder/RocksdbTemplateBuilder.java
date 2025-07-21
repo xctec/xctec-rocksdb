@@ -40,6 +40,8 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
 
     private boolean enableStatistics = true;
 
+    private boolean enableTransaction = false;
+
     private boolean enableDefaultEventListener = false;
 
     private LoggerInterface logger;
@@ -88,6 +90,11 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
 
     public RocksdbTemplateBuilder<T, CF> setEnableStatistics(boolean enableStatistics) {
         this.enableStatistics = enableStatistics;
+        return this;
+    }
+
+    public RocksdbTemplateBuilder<T, CF> setEnableTransaction(boolean enableTransaction) {
+        this.enableTransaction = enableTransaction;
         return this;
     }
 
@@ -189,12 +196,18 @@ public class RocksdbTemplateBuilder<T extends RocksdbTemplate, CF extends Abstra
                 descriptors.add(columnFamilyDescriptor);
             }
             List<ColumnFamilyHandle> handles = new ArrayList<>();
-            RocksDB db = RocksDB.open(dbOptions, this.path, descriptors, handles);
+            RocksDB db = null;
+            if (enableTransaction) {
+                db = OptimisticTransactionDB.open(dbOptions, this.path, descriptors, handles);
+            } else {
+                db = RocksDB.open(dbOptions, this.path, descriptors, handles);
+            }
 
             Constructor<T> constructor = rocksdbTemplateClass.getConstructor();
             T rocksdbTemplate = constructor.newInstance();
             rocksdbTemplate.setDb(db);
             rocksdbTemplate.setDbName(dbName);
+            rocksdbTemplate.setEnableTransaction(enableTransaction);
             rocksdbTemplate.setStatistics(statistics);
 
             for (ColumnFamilyHandle columnFamilyHandle : handles) {

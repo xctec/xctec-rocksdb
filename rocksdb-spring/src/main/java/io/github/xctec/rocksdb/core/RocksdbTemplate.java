@@ -45,6 +45,37 @@ public class RocksdbTemplate<K, V> extends AbstractRocksdbTemplate<K, V> impleme
         this.columnFamilyOperationsMap.put(key, columnFamilyOperations);
     }
 
+    private OptimisticTransactionDB getTransactionDB() {
+        if (!isEnableTransaction()) {
+            throw new UnsupportedOperationException();
+        }
+        return (OptimisticTransactionDB) this.getDb();
+    }
+
+    public Transaction beginTransaction(final WriteOptions writeOptions) {
+        OptimisticTransactionDB optimisticTransactionDB = this.getTransactionDB();
+        return optimisticTransactionDB.beginTransaction(writeOptions);
+    }
+
+    public Transaction beginTransaction(final WriteOptions writeOptions,
+                                        final OptimisticTransactionOptions optimisticTransactionOptions) {
+        OptimisticTransactionDB optimisticTransactionDB = this.getTransactionDB();
+        return optimisticTransactionDB.beginTransaction(writeOptions, optimisticTransactionOptions);
+    }
+
+    public Transaction beginTransaction(final WriteOptions writeOptions,
+                                        final Transaction oldTransaction) {
+        OptimisticTransactionDB optimisticTransactionDB = this.getTransactionDB();
+        return optimisticTransactionDB.beginTransaction(writeOptions, oldTransaction);
+    }
+
+    public Transaction beginTransaction(final WriteOptions writeOptions,
+                                        final OptimisticTransactionOptions optimisticTransactionOptions,
+                                        final Transaction oldTransaction) {
+        OptimisticTransactionDB optimisticTransactionDB = this.getTransactionDB();
+        return optimisticTransactionDB.beginTransaction(writeOptions, optimisticTransactionOptions, oldTransaction);
+    }
+
 
     @Override
     public RocksIterator newIterator(ReadOptions readOptions) {
